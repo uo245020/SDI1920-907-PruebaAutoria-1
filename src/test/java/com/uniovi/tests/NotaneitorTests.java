@@ -1,0 +1,145 @@
+package com.uniovi.tests;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_Properties;
+import com.uniovi.tests.pageobjects.PO_RegisterView;
+import com.uniovi.tests.pageobjects.PO_View;
+
+//Ordenamos las pruebas por el nombre del método
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class NotaneitorTests {
+	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	static String Geckdriver024 = "C:\\Users\\nutba\\Desktop\\Universidad\\3º\\SECOND SEMESTER\\SDI\\LAB\\lab05\\OneDrive_2020-03-02\\PL-SDI-Sesio╠ün5-material\\geckodriver024win64.exe";
+	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
+	static String URL = "http://localhost:8080";
+
+	public static WebDriver getDriver(String PathFirefox, String Geckdriver) {
+		System.setProperty("webdriver.firefox.bin", PathFirefox);
+		System.setProperty("webdriver.gecko.driver", Geckdriver);
+		WebDriver driver = new FirefoxDriver();
+		return driver;
+	}
+
+	// Antes de cada prueba se navega al URL home de la aplicaciónn
+	@Before
+	public void setUp() {
+		driver.navigate().to(URL);
+	}
+
+	// Después de cada prueba se borran las cookies del navegador
+	@After
+	public void tearDown() {
+		driver.manage().deleteAllCookies();
+	} // Antes de la primera prueba
+
+	@BeforeClass
+	static public void begin() {
+	} // Al finalizar la última prueba
+
+	@AfterClass
+	static public void end() {
+		// Cerramos el navegador al finalizar las pruebas
+		driver.quit();
+	}
+
+	// PR01. Registro de Usuario con datos válidos.
+	@Test
+	public void PR01() {
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		PO_RegisterView.fillForm(driver, "josefo@gmail.com", "Josefo", "Perez", "77777", "77777");
+
+		PO_View.checkElement(driver, "text", "Bienvenido/a a la página principal");
+	}
+
+	// PRO2. Registro de Usuario con datos inválidos (email vacío, nombre vacío,
+	// apellidos vacíos).
+	@Test
+	public void PR02() {
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, " ", "Josefo", "Perez", "77777", "77777");
+		PO_View.getP(); // Email vacío
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "josefo@yahoo.com", " ", "Perez", "77777", "77777");
+		// Nombre vacío
+		PO_RegisterView.checkKey(driver, "Error.signup.name.length", PO_Properties.getSPANISH());
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "josefo@hotmail.com", "Josefo", " ", "77777", "77777");
+		// Apellidos vacíos
+		PO_RegisterView.checkKey(driver, "Error.signup.lastName.length", PO_Properties.getSPANISH());
+	}
+
+	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña
+	// inválida).
+	@Test
+	public void PR03() {
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "jose@gmail.com", "Josefo", "Perez", "77777", "7777");
+		PO_View.getP(); // Email vacío
+		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
+	}
+
+	// PRO4. Registro de Usuario con datos inválidos (email existente).
+	@Test
+	public void PR04() {
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "josefo@gmail.com", "Josefo", "Perez", "77777", "77777");
+		PO_View.getP(); // Email vacío
+		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
+	}
+
+	// PRO5. Inicio de sesión con datos válidos (administrador).
+	@Test
+	public void PR05() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin"); 
+		
+		PO_View.checkElement(driver, "text", "Usuarios");
+	}
+
+	// PRO6. Inicio de sesión con datos válidos (usuario estándar).
+	@Test
+	public void PR06() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
+		
+		PO_View.checkElement(driver, "text", "Usuarios");
+	}
+
+	// PRO7. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos).
+	@Test
+	public void PR07() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+		PO_LoginView.fillForm(driver, " ", "123456"); 
+		PO_View.getP(); 
+		// Email vacío
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		PO_LoginView.fillForm(driver, "99999990A", " "); 
+		// Contraseña vacía
+		PO_RegisterView.checkKey(driver, "Error.signup.password.length", PO_Properties.getSPANISH());
+	}
+
+	// PRO8. Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta).
+	@Test
+	public void PR08() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+		PO_LoginView.fillForm(driver, "99999990A", "12345"); 
+		PO_View.getP(); 
+		// Contraseña incorrecta
+		PO_RegisterView.checkKey(driver, "Error.login.password", PO_Properties.getSPANISH());
+	}
+}
