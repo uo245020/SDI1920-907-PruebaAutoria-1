@@ -14,9 +14,15 @@ public interface UsersRepository extends CrudRepository<User, Long> {
 	
 	Page<User> findAll(Pageable pageable);
 	
-	@Query("SELECT u FROM User u WHERE (LOWER(u.name) LIKE LOWER(?1) " + "OR LOWER(u.lastName) LIKE LOWER(?1))")
-	List<User> searchByNameAndSurname(String searchtext);
+	@Query("SELECT u FROM User u WHERE (LOWER(u.name) LIKE LOWER(?1) " 
+	+ "OR LOWER(u.lastName) LIKE LOWER(?1) OR LOWER(u.email) LIKE LOWER(?1)"
+	+ "AND u.email NOT LIKE ?2 AND u.email NOT LIKE 'admin@email.com')")
+	List<User> searchByNameAndSurname(String searchtext, String email);
 	
 	@Query("SELECT r.friends FROM User r WHERE r = ?1")
 	Page<User> findUserFriends(Pageable pageable, User user);
+
+	@Query("SELECT u FROM User u WHERE u.email NOT LIKE ?1 AND u.email NOT LIKE 'admin@email.com'")
+	List<User> findAllButYourself(String email);
+	
 }

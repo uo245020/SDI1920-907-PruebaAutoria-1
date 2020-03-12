@@ -35,6 +35,12 @@ public class UsersService {
 		usersRepository.findAll().forEach(users::add);
 		return users;
 	}
+	
+	public List<User> getAllUsersButYourself(String email) {
+		List<User> users = new ArrayList<User>();
+		usersRepository.findAllButYourself(email).forEach(users::add);
+		return users;
+	}
 
 	public User getUser(Long id) {
 		return usersRepository.findById(id).get();
@@ -54,10 +60,9 @@ public class UsersService {
 	}
 	
 
-	public List<User> searchUsersByNameAndSurname(String searchText) {
+	public List<User> searchUsersByNameAndSurname(String searchText, String email) {
 		List<User> users = new LinkedList<User>();
-		searchText = "%" + searchText + "%";
-		users = usersRepository.searchByNameAndSurname(searchText);
+		users = usersRepository.searchByNameAndSurname(searchText, email);
 		return users;
 	}
 	

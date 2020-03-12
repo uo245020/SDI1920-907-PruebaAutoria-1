@@ -5,6 +5,8 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import com.uniovi.entities.Post;
 import com.uniovi.entities.User;
 import com.uniovi.services.PostsService;
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.CreatePostValidator;
 
 @Controller
 public class PostsController {
@@ -22,6 +25,8 @@ public class PostsController {
 	private PostsService postsService;
 	@Autowired
 	private UsersService usersService;
+	@Autowired
+	private CreatePostValidator createPostValidator;
 
 	@RequestMapping("/post/list")
 	public String getList(Model model, Principal principal,
@@ -42,11 +47,17 @@ public class PostsController {
 	@RequestMapping(value = "/post/add")
 	public String getMark(Model model) {
 		//model.addAttribute("usersList", usersService.getUsers());
+		model.addAttribute("post", new Post());
 		return "post/add";
 	}
 
-	@RequestMapping(value = "/post/add", method = RequestMethod.POST)
-	public String setPost(@ModelAttribute Post post, Principal principal) {
+	@RequestMapping(value = "/post/add", method = RequestMethod.POST) // fecha
+	public String setPost(Model model, Principal principal, @Validated Post post, BindingResult result) {
+		createPostValidator.validate(post, result);
+		model.addAttribute("post", post);
+		if (result.hasErrors()) {
+			return "post/add";
+		}
 		User user = usersService.getUserByEmail(principal.getName());
 		post.setUser(user);
 		postsService.addPost(post);

@@ -22,9 +22,9 @@ public class LogInFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		User user = (User) target;
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Error.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Error.empty");
 		if (user.getEmail().length() < 5 || user.getEmail().length() > 24) {
-			errors.rejectValue("username", "Error.signup.email.length");
+			errors.rejectValue("email", "Error.signup.email.length");
 		}
 		if (user.getPassword().length() < 5 || user.getPassword().length() > 24) {
 			errors.rejectValue("password", "Error.signup.password.length");

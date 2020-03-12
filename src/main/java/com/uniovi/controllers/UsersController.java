@@ -1,5 +1,6 @@
 package com.uniovi.controllers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,6 @@ import com.uniovi.services.InvitationsService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
-import com.uniovi.validators.LogInFormValidator;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
@@ -36,20 +36,20 @@ public class UsersController {
 	private RolesService rolesService;
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
-	@Autowired
-	private LogInFormValidator logInFormValidator;
+//	@Autowired
+//	private LogInFormValidator logInFormValidator;
 	
 	@Autowired
 	private InvitationsService invitationService;
 
 	@RequestMapping("/user/list")
-	public String getListado(Model model, @RequestParam(value = "", required = false) String searchText) {
+	public String getListado(Model model, @RequestParam(value = "", required = false) String searchText, Principal principal) {
 		List<User> users = new ArrayList<User>();
 		if (searchText != null && !searchText.isEmpty()) {
 			searchText = "%" + searchText + "%";
-			users = usersService.searchUsersByNameAndSurname(searchText);
+			users = usersService.searchUsersByNameAndSurname(searchText, principal.getName());
 		} else {
-			users = usersService.getUsers();
+			users = usersService.getAllUsersButYourself(principal.getName());
 		}
 		model.addAttribute("usersList", users);
 		return "user/list";
@@ -78,8 +78,6 @@ public class UsersController {
 		usersService.deleteUser(id);
 		return "redirect:/user/list";
 	}
-	
-	
 	
 
 //	@RequestMapping(value = "/user/edit/{id}")
@@ -117,19 +115,10 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
-		model.addAttribute("user", new User());
+		//model.addAttribute("user", new User());
 		return "login";
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(Model model, @Validated User user, BindingResult result) {
-		logInFormValidator.validate(user, result);
-		model.addAttribute("user", user);
-		if (result.hasErrors()) {
-			return "login";
-		}
-		return "redirect:user/list";
-	}
+
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {

@@ -24,4 +24,18 @@ public class PO_PrivateView extends PO_NavView {
 		By boton = By.className("btn");
 		driver.findElement(boton).click();
 	}
+
+	public static void checkUserList(WebDriver driver, String string, String string2, String string3, String string4,
+			String string5) {
+		checkElement(driver, "//*[@id='element']"); 
+		checkElement(driver, "//*[/html/body/div/div/table/tbody/tr[1]/td[1]='"+ string2 +"'"); 
+		checkElement(driver, "//*[/html/body/div/div/table/tbody/tr[1]/td[1]='"+ string3 +"'"); 
+		checkElement(driver, "//*[/html/body/div/div/table/tbody/tr[1]/td[1]='"+ string4 +"'"); 
+		checkElement(driver, "//*[/html/body/div/div/table/tbody/tr[1]/td[1]='"+ string5 +"'"); 
+	}
+
+	public static void checkElement(WebDriver driver, String type) {
+		PO_View.checkElement(driver, "free", type);
+
+	}
 }
