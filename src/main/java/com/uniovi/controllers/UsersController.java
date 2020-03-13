@@ -1,13 +1,13 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,46 +39,33 @@ public class UsersController {
 	private RolesService rolesService;
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
-//	@Autowired
-//	private LogInFormValidator logInFormValidator;
 	
 	@Autowired
 	private InvitationsService invitationService;
 
 	@RequestMapping("/user/list")
-	public String getListado(Model model, @RequestParam(value = "", required = false) String searchText, Principal principal) {
+	public String getListado(Pageable pageable, Model model, @RequestParam(value = "", required = false) String searchText, Principal principal) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
-		List<User> users = new ArrayList<User>();
-		List<User> usersAuxiliar = new ArrayList<User>();
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		Page<User> usersAuxiliar = new PageImpl<User>(new LinkedList<User>());
 		if (searchText != null && !searchText.isEmpty()) {
 			searchText = "%" + searchText + "%";
-			users = usersService.searchUsersByNameAndSurname(searchText, principal.getName());
+			users = usersService.searchUsersByNameAndSurname(pageable, searchText, principal.getName());
 		} else {
-			users = usersService.getAllUsersButYourself(principal.getName());
+			users = usersService.getAllUsersButYourself(pageable, principal.getName());
 		}
-		for (int i=0;i<users.size();i++) {
-			if(users.get(i).getEmail()!= email) {
-				//Comprobamos que a el usuario no le aparece el mismo
-				usersAuxiliar.add(users.get(i));
-			}
-		}
-		users=usersAuxiliar;
-		model.addAttribute("usersList", users);
+//		for (int i=0;i<users.getSize();i++) {
+//			if(users.getContent().get(i).getEmail()!= email) {
+//				//Comprobamos que al usuario no le aparece el mismo
+//				usersAuxiliar.add(users.getContent().get(i));
+//			}
+//		}
+		//users=usersAuxiliar;
+		model.addAttribute("usersList", users.getContent());
+		model.addAttribute("page", users);
 		return "user/list";
 	}
-
-//	@RequestMapping(value = "/user/add")
-//	public String getUser(Model model) {
-//		model.addAttribute("usersList", usersService.getUsers());
-//		return "user/add";
-//	}
-//
-//	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
-//	public String setUser(@ModelAttribute User user) {
-//		usersService.addUser(user);
-//		return "redirect:/user/list";
-//	}
 
 	@RequestMapping("/user/details/{id}")
 	public String getDetail(Model model, @PathVariable Long id) {
@@ -91,21 +78,7 @@ public class UsersController {
 		usersService.deleteUser(id);
 		return "redirect:/user/list";
 	}
-	
 
-//	@RequestMapping(value = "/user/edit/{id}")
-//	public String getEdit(Model model, @PathVariable Long id) {
-//		User user = usersService.getUser(id);
-//		model.addAttribute("user", user);
-//		return "user/edit";
-//	}
-//
-//	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
-//	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-//		user.setId(id);
-//		usersService.addUser(user);
-//		return "redirect:/user/details/" + id;
-//	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {

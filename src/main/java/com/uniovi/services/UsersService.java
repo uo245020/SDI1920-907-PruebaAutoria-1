@@ -22,7 +22,7 @@ public class UsersService {
 	private UsersRepository usersRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@Autowired
 	private InvitationsService invitationsService;
 
@@ -35,11 +35,9 @@ public class UsersService {
 		usersRepository.findAll().forEach(users::add);
 		return users;
 	}
-	
-	public List<User> getAllUsersButYourself(String email) {
-		List<User> users = new ArrayList<User>();
-		usersRepository.findAllButYourself(email).forEach(users::add);
-		return users;
+
+	public Page<User> getAllUsersButYourself(Pageable pageable, String email) {
+		return usersRepository.findAllButYourself(pageable, email);
 	}
 
 	public User getUser(Long id) {
@@ -58,15 +56,13 @@ public class UsersService {
 	public User getUserByEmail(String email) {
 		return usersRepository.findByEmail(email);
 	}
-	
 
-	public List<User> searchUsersByNameAndSurname(String searchText, String email) {
-		List<User> users = new LinkedList<User>();
-		users = usersRepository.searchByNameAndSurname(searchText, email);
+	public Page<User> searchUsersByNameAndSurname(Pageable pageable, String searchText, String email) {
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		users = usersRepository.searchByNameAndSurname(pageable, searchText, email);
 		return users;
 	}
-	
-	
+
 	public Page<User> getUsers(Pageable pageable) {
 		Page<User> users = new PageImpl<User>(new LinkedList<User>());
 		users = usersRepository.findAll(pageable);
@@ -76,14 +72,11 @@ public class UsersService {
 	public void addFriend(User sender, User receiver) {
 		sender.addFriend(receiver);
 		invitationsService.deleteInvitation(sender, receiver);
-		
-		
+
 	}
-	
 
 	public Page<User> getUserFriends(Pageable pageable, User user) {
 		return usersRepository.findUserFriends(pageable, user);
 	}
-	
-	
+
 }

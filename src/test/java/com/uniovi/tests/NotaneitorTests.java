@@ -12,11 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
-import com.uniovi.tests.pageobjects.PO_PostView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
-import com.uniovi.tests.pageobjects.PO_Properties;
-import com.uniovi.tests.pageobjects.PO_RegisterView;
-import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
 //Ordenamos las pruebas por el nombre del método
@@ -123,28 +119,28 @@ public class NotaneitorTests {
 //		PO_View.checkElement(driver, "text", "Usuarios");
 //	}
 
-	// PRO7. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos).
-	@Test
-	public void PR07() { 
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-		PO_LoginView.fillForm(driver, " ", "123456"); 
-		PO_View.getP(); 
-		// Email vacío
-		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
-		PO_LoginView.fillForm(driver, "99999990A", " "); 
-		// Contraseña vacía
-		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
-	}
-
-	// PRO8. Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta).
-	@Test 
-	public void PR08() { 
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-		PO_LoginView.fillForm(driver, "99999990A", "12345"); 
-		PO_View.getP(); 
-		// Contraseña incorrecta
-		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
-	}
+//	// PRO7. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos).
+//	@Test
+//	public void PR07() { 
+//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+//		PO_LoginView.fillForm(driver, " ", "123456"); 
+//		PO_View.getP(); 
+//		// Email vacío
+//		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+//		PO_LoginView.fillForm(driver, "99999990A", " "); 
+//		// Contraseña vacía
+//		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+//	}
+//
+//	// PRO8. Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta).
+//	@Test 
+//	public void PR08() { 
+//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+//		PO_LoginView.fillForm(driver, "99999990A", "12345"); 
+//		PO_View.getP(); 
+//		// Contraseña incorrecta
+//		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+//	}
 //	
 //	// PRO9. Hacer click en la opción de salir de sesión y comprobar que se redirige a la página de inicio de sesión (Login).
 //	@Test
@@ -162,20 +158,25 @@ public class NotaneitorTests {
 //		SeleniumUtils.textoNoPresentePagina(driver, "Cerrar Sesión");
 //	}
 
-//	// PR11. Mostrar el listado de usuarios y comprobar que se muestran todos los
-//	// que existen en el sistema.
-//	@Test
-//	public void PR11() {
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//		
-//		//PO_PrivateView.checkUserList(driver, "99999990A", "99999991B", "99999992C", "99999993D", "99999977E"); corregir
-//		SeleniumUtils.textoPresentePagina(driver, "99999990A");
-//		SeleniumUtils.textoPresentePagina(driver, "99999991B");
-//		SeleniumUtils.textoPresentePagina(driver, "99999992C");
-//		SeleniumUtils.textoPresentePagina(driver, "99999993D");
-//		SeleniumUtils.textoPresentePagina(driver, "99999977E");
-//	}
+	// PR11. Mostrar el listado de usuarios y comprobar que se muestran todos los
+	// que existen en el sistema.
+	@Test
+	public void PR11() {
+		//Accedemos automáticamente después de iniciar sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		
+		//PO_PrivateView.checkUserList(driver, "99999990A", "99999991B", "99999992C", "99999993D", "99999977E"); corregir
+		SeleniumUtils.textoPresentePagina(driver, "99999990A");
+		SeleniumUtils.textoPresentePagina(driver, "99999991B");
+		SeleniumUtils.textoPresentePagina(driver, "99999992C");
+		SeleniumUtils.textoPresentePagina(driver, "99999993D");
+		SeleniumUtils.textoPresentePagina(driver, "99999977E");
+		
+		// Segunda Página
+		PO_PrivateView.clickLink(driver, "?page=1");
+		SeleniumUtils.textoPresentePagina(driver, "99999994E");
+	}
 //
 //	// PR12. Hacer una búsqueda con el campo vacío y comprobar que se muestra la
 //	// página que corresponde

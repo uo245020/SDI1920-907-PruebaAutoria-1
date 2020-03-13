@@ -52,12 +52,12 @@
 			
 			<td>
 			<a sec:authorize="hasRole('ROLE_ADMIN')">
-			<input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de eliminar los usuarios seleccionados?')"/>
+			<input type="submit" value="Eliminar" onclick="return confirm('ï¿½Estï¿½s seguro de eliminar los usuarios seleccionados?')"/>
 			</a>
 		</td>
 		</form>
 		</div>
-		
+		<footer th:replace="fragments/pagination"/>
 	</div>
 	<footer th:replace="fragments/footer" />
 </body>
