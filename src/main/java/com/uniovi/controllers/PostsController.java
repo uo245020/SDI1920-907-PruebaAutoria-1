@@ -1,6 +1,8 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,5 +98,22 @@ public class PostsController {
 //	public String goHome() {
 //		return "/";
 //	}
+	
+	
+	@RequestMapping("/post/friendList")
+	public String geFriendtList(Model model, Principal principal,
+			@RequestParam(value = "", required = false) String searchText) {
+		// List<Post> posts = new ArrayList<>();
+				String email = principal.getName();
+				User user = usersService.getUserByEmail(email);
+//				if (searchText != null && !searchText.isEmpty()) {
+//					searchText = "%" + searchText + "%";
+//					
+//				} else {
+//					posts = postsService.getPostsForUser(user);
+//				}
+				model.addAttribute("friendPostList", postsService.getPostsForUser(user));
+				return "post/friendlist";
+	}
 
 }
