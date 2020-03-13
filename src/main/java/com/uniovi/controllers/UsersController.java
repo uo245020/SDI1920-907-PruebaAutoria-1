@@ -165,13 +165,13 @@ public class UsersController {
 	
 	@RequestMapping(value = "multipleDelete", method = RequestMethod.POST)
 	public String multipleDelete(Model model, HttpServletRequest request, ModelMap modelMap) {
-		if (request.getParameterValues("userEmail") != null) {
-		for (String email : request.getParameterValues("userEmail")) {
-			//usersService.deleteUser(usuario.getId());
-			System.out.println(email);
+		if (request.getParameterValues("userId") != null) {
+		for (String id : request.getParameterValues("userId")) {
+			
+			usersService.deleteUser(Long.parseLong(id));
 		}
 		}
-		return "redirect:user/list";
+		return "redirect:/user/list";
 	}
 	
 	

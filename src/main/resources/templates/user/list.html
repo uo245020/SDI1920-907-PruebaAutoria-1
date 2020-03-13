@@ -35,7 +35,7 @@
 						<td>
 						<a sec:authorize="hasRole('ROLE_ADMIN')">
  								<input type="checkbox" class="chkCheckBoxId"
- 								value="${user.email}" name="userEmail" />
+ 								th:value="${user.id}" name="userId" />
 						</a>                 
                 </td>
 						<td th:text="${user.email}">71888888X</td>
@@ -52,7 +52,7 @@
 			
 			<td>
 			<a sec:authorize="hasRole('ROLE_ADMIN')">
-			<input type="submit" value="Eliminar" onclick="return confirm('ï¿½Estï¿½s seguro de eliminar los usuarios seleccionados?')"/>
+			<input type="submit" value="Eliminar" onclick="return confirm('¿Realmente desea eliminar los usuari@s seleccionados?')"/>
 			</a>
 		</td>
 		</form>
