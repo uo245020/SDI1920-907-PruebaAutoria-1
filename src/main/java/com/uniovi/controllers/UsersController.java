@@ -44,13 +44,23 @@ public class UsersController {
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model, @RequestParam(value = "", required = false) String searchText, Principal principal) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
 		List<User> users = new ArrayList<User>();
+		List<User> usersAuxiliar = new ArrayList<User>();
 		if (searchText != null && !searchText.isEmpty()) {
 			searchText = "%" + searchText + "%";
 			users = usersService.searchUsersByNameAndSurname(searchText, principal.getName());
 		} else {
 			users = usersService.getAllUsersButYourself(principal.getName());
 		}
+		for (int i=0;i<users.size();i++) {
+			if(users.get(i).getEmail()!= email) {
+				//Comprobamos que a el usuario no le aparece el mismo
+				usersAuxiliar.add(users.get(i));
+			}
+		}
+		users=usersAuxiliar;
 		model.addAttribute("usersList", users);
 		return "user/list";
 	}
