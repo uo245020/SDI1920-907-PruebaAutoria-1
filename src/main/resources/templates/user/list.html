@@ -15,6 +15,7 @@
 		</form>
 		<p th:text="#{u.list}"></p>
 		<div class="table-responsive">
+		    <form method="post" action="/multipleDelete">
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -33,7 +34,8 @@
 					<tr th:each="user : ${usersList}">
 						<td>
 						<a sec:authorize="hasRole('ROLE_ADMIN')">
- 								<input type="checkbox" name="seleccionado" th:value="${user.email}"/>
+ 								<input type="checkbox" class="chkCheckBoxId"
+ 								value="${user.email}" name="userEmail" />
 						</a>                 
                 </td>
 						<td th:text="${user.email}">71888888X</td>
@@ -47,7 +49,15 @@
 					</tr>
 				</tbody>
 			</table>
+			
+			<td>
+			<a sec:authorize="hasRole('ROLE_ADMIN')">
+			<input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de eliminar los usuarios seleccionados?')"/>
+			</a>
+		</td>
+		</form>
 		</div>
+		
 	</div>
 	<footer th:replace="fragments/footer" />
 </body>

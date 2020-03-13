@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -184,6 +187,19 @@ public class UsersController {
 		model.addAttribute("page", friends);
 		return "user/friendsList";
 	}
+	
+	
+	@RequestMapping(value = "multipleDelete", method = RequestMethod.POST)
+	public String multipleDelete(Model model, HttpServletRequest request, ModelMap modelMap) {
+		if (request.getParameterValues("userEmail") != null) {
+		for (String email : request.getParameterValues("userEmail")) {
+			//usersService.deleteUser(usuario.getId());
+			System.out.println(email);
+		}
+		}
+		return "redirect:user/list";
+	}
+	
 	
 	
 
