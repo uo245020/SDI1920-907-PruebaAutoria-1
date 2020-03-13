@@ -13,7 +13,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_PostView;
+import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
+import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -120,29 +122,29 @@ public class NotaneitorTests {
 //		
 //		PO_View.checkElement(driver, "text", "Usuarios");
 //	}
-//
-//	// PRO7. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos).
-//	@Test
-//	public void PR07() { NOT WORKING
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-//		PO_LoginView.fillForm(driver, " ", "123456"); 
-//		PO_View.getP(); 
-//		// Email vacío
-//		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
-//		PO_LoginView.fillForm(driver, "99999990A", " "); 
-//		// Contraseña vacía
-//		PO_RegisterView.checkKey(driver, "Error.signup.password.length", PO_Properties.getSPANISH());
-//	}
-//
-//	// PRO8. Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta).
-//	@Test 
-//	public void PR08() { NOT WORKING
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-//		PO_LoginView.fillForm(driver, "99999990A", "12345"); 
-//		PO_View.getP(); 
-//		// Contraseña incorrecta
-//		PO_RegisterView.checkKey(driver, "Error.login.password", PO_Properties.getSPANISH());
-//	}
+
+	// PRO7. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos).
+	@Test
+	public void PR07() { 
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+		PO_LoginView.fillForm(driver, " ", "123456"); 
+		PO_View.getP(); 
+		// Email vacío
+		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+		PO_LoginView.fillForm(driver, "99999990A", " "); 
+		// Contraseña vacía
+		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+	}
+
+	// PRO8. Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta).
+	@Test 
+	public void PR08() { 
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+		PO_LoginView.fillForm(driver, "99999990A", "12345"); 
+		PO_View.getP(); 
+		// Contraseña incorrecta
+		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+	}
 //	
 //	// PRO9. Hacer click en la opción de salir de sesión y comprobar que se redirige a la página de inicio de sesión (Login).
 //	@Test
@@ -199,37 +201,37 @@ public class NotaneitorTests {
 //		
 //	}
 //	
-	// PR24. Ir al formulario crear publicaciones, rellenarla con datos válidos y
-	// pulsar el botón Submit. Comprobar que la publicación sale en el listado de
-	// publicaciones de dicho usuario.
-	@Test
-	public void PR24() { // mejorar
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
-		
-		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
-		PO_PostView.fillForm(driver, "Mi primer post", "Hola Mundo!");
-		
-		SeleniumUtils.textoPresentePagina(driver, "Mis publicaciones");
-		SeleniumUtils.textoPresentePagina(driver, "Mi primer post");
-	}
-
-	// PR25. Ir al formulario de crear publicaciones, rellenarla con datos inválidos
-	// (campo título vacío) y pulsar el botón Submit. Comprobar que se muestra el
-	// mensaje de campo obligatorio.
-	@Test
-	public void PR25() {
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
-		
-		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
-		PO_PostView.fillForm(driver, " ", "Hola Mundo!");
-		PO_View.getP(); 
-		PO_PostView.checkKey(driver, "Error.post.title.length", PO_Properties.getSPANISH());
-
-		PO_PostView.fillForm(driver, "Mi primer post", " ");
-		PO_PostView.checkKey(driver, "Error.post.text.length", PO_Properties.getSPANISH());
-		
-	}
+//	// PR24. Ir al formulario crear publicaciones, rellenarla con datos válidos y
+//	// pulsar el botón Submit. Comprobar que la publicación sale en el listado de
+//	// publicaciones de dicho usuario.
+//	@Test
+//	public void PR24() { // mejorar
+//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+//		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
+//		
+//		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
+//		PO_PostView.fillForm(driver, "Mi primer post", "Hola Mundo!");
+//		
+//		SeleniumUtils.textoPresentePagina(driver, "Mis publicaciones");
+//		SeleniumUtils.textoPresentePagina(driver, "Mi primer post");
+//	}
+//
+//	// PR25. Ir al formulario de crear publicaciones, rellenarla con datos inválidos
+//	// (campo título vacío) y pulsar el botón Submit. Comprobar que se muestra el
+//	// mensaje de campo obligatorio.
+//	@Test
+//	public void PR25() {
+//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+//		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
+//		
+//		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
+//		PO_PostView.fillForm(driver, " ", "Hola Mundo!");
+//		PO_View.getP(); 
+//		PO_PostView.checkKey(driver, "Error.post.title.length", PO_Properties.getSPANISH());
+//
+//		PO_PostView.fillForm(driver, "Mi primer post", " ");
+//		PO_PostView.checkKey(driver, "Error.post.text.length", PO_Properties.getSPANISH());
+//		
+//	}
 
 }
