@@ -15,6 +15,7 @@ import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_PostView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
+import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -55,194 +56,196 @@ public class NotaneitorTests {
 		driver.quit();
 	}
 
-//	// PR01. Registro de Usuario con datos válidos.
-//	@Test
-//	public void PR01() {
-//		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//		PO_RegisterView.fillForm(driver, "josefo@gmail.com", "Josefo", "Perez", "77777", "77777");
-//
-//		PO_View.checkElement(driver, "text", "Bienvenido/a a la página principal");
-//	}
-//
-//	// PRO2. Registro de Usuario con datos inválidos (email vacío, nombre vacío,
-//	// apellidos vacíos).
-//	@Test
-//	public void PR02() {
-//		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//		// Rellenamos el formulario.
-//		PO_RegisterView.fillForm(driver, " ", "Josefo", "Perez", "77777", "77777");
-//		PO_View.getP(); // Email vacío
-//		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
-//		// Rellenamos el formulario.
-//		PO_RegisterView.fillForm(driver, "josefo@yahoo.com", " ", "Perez", "77777", "77777");
-//		// Nombre vacío
-//		PO_RegisterView.checkKey(driver, "Error.signup.name.length", PO_Properties.getSPANISH());
-//		// Rellenamos el formulario.
-//		PO_RegisterView.fillForm(driver, "josefo@hotmail.com", "Josefo", " ", "77777", "77777");
-//		// Apellidos vacíos
-//		PO_RegisterView.checkKey(driver, "Error.signup.lastName.length", PO_Properties.getSPANISH());
-//	}
-//
-//	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña
-//	// inválida).
-//	@Test
-//	public void PR03() {
-//		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//		// Rellenamos el formulario.
-//		PO_RegisterView.fillForm(driver, "jose@gmail.com", "Josefo", "Perez", "77777", "7777");
-//		PO_View.getP(); // Email vacío
-//		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
-//	}
-//
-//	// PRO4. Registro de Usuario con datos inválidos (email existente).
-//	@Test
-//	public void PR04() {
-//		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//		// Rellenamos el formulario.
-//		PO_RegisterView.fillForm(driver, "josefo@gmail.com", "Josefo", "Perez", "77777", "77777");
-//		PO_View.getP(); // Email vacío
-//		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
-//	}
-//
-//	// PRO5. Inicio de sesión con datos válidos (administrador).
-//	@Test
-//	public void PR05() {
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//		PO_LoginView.fillForm(driver, "admin@email.com", "admin"); 
-//		
-//		PO_View.checkElement(driver, "text", "Usuarios");
-//	}
-//
-//	// PRO6. Inicio de sesión con datos válidos (usuario estándar).
-//	@Test
-//	public void PR06() {
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-//		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
-//		
-//		PO_View.checkElement(driver, "text", "Usuarios");
-//	}
+	// PR01. Registro de Usuario con datos válidos.
+	@Test
+	public void PR01() {
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		PO_RegisterView.fillForm(driver, "pablo@gmail.com", "Pablo", "Perez", "123456", "123456");
 
-//	// PRO7. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos).
-//	@Test
-//	public void PR07() { 
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-//		PO_LoginView.fillForm(driver, " ", "123456"); 
-//		PO_View.getP(); 
-//		// Email vacío
-//		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
-//		PO_LoginView.fillForm(driver, "99999990A", " "); 
-//		// Contraseña vacía
-//		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
-//	}
-//
-//	// PRO8. Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta).
-//	@Test 
-//	public void PR08() { 
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-//		PO_LoginView.fillForm(driver, "99999990A", "12345"); 
-//		PO_View.getP(); 
-//		// Contraseña incorrecta
-//		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
-//	}
-//	
-//	// PRO9. Hacer click en la opción de salir de sesión y comprobar que se redirige a la página de inicio de sesión (Login).
-//	@Test
-//	public void PR09() {
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-//		PO_LoginView.fillForm(driver, "admin@email.com", "admin"); 
-//		
-//		PO_PrivateView.clickOption(driver, "logout", "text", "Inicia Sesión");
-//		//PO_View.checkElement(driver, "text", "Usuarios");
-//	}
-//
-//	// PR10. Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado.
-//	@Test
-//	public void PR10() {
-//		SeleniumUtils.textoNoPresentePagina(driver, "Cerrar Sesión");
-//	}
+		PO_View.checkElement(driver, "text", "Bienvenido/a a la página principal");
+	}
+
+	// PRO2. Registro de Usuario con datos inválidos (email vacío, nombre vacío,
+	// apellidos vacíos).
+	@Test
+	public void PR02() {
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, " ", "Pablo", "Perez", "123456", "123456");
+		PO_View.getP(); // Email vacío
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "pablo@yahoo.com", " ", "Perez", "123456", "123456");
+		// Nombre vacío
+		PO_RegisterView.checkKey(driver, "Error.signup.name.length", PO_Properties.getSPANISH());
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "pablo@hotmail.com", "Pablo", " ", "123456", "123456");
+		// Apellidos vacíos
+		PO_RegisterView.checkKey(driver, "Error.signup.lastName.length", PO_Properties.getSPANISH());
+	}
+
+	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña
+	// inválida).
+	@Test
+	public void PR03() {
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "pablo@mail.com", "Pablo", "Perez", "123456", "12345");
+		PO_View.getP(); // Email vacío
+		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
+	}
+
+	// PRO4. Registro de Usuario con datos inválidos (email existente).
+	@Test
+	public void PR04() {
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "pablo@gmail.com", "Pablo", "Perez", "123456", "123456");
+		PO_View.getP(); // Email vacío
+		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
+	}
+
+	// PRO5. Inicio de sesión con datos válidos (administrador).
+	@Test
+	public void PR05() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+
+		PO_View.checkElement(driver, "text", "Usuarios");
+	}
+
+	// PRO6. Inicio de sesión con datos válidos (usuario estándar).
+	@Test
+	public void PR06() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "pedro@email.com", "123456");
+
+		PO_View.checkElement(driver, "text", "Usuarios");
+	}
+
+	// PRO7. Inicio de sesión con datos inválidos (usuario estándar, campo email y
+	// contraseña vacíos).
+	@Test
+	public void PR07() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, " ", "123456");
+		PO_View.getP();
+		// Email vacío
+		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+		PO_LoginView.fillForm(driver, "pedro@email.com", " ");
+		// Contraseña vacía
+		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+	}
+
+	// PRO8. Inicio de sesión con datos válidos (usuario estándar, email existente,
+	// pero contraseña incorrecta).
+	@Test
+	public void PR08() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "pedro@email.com", "12345");
+		PO_View.getP();
+		// Contraseña incorrecta
+		PO_RegisterView.checkKey(driver, "Error.login.message", PO_Properties.getSPANISH());
+	}
+
+	// PRO9. Hacer click en la opción de salir de sesión y comprobar que se redirige
+	// a la página de inicio de sesión (Login).
+	@Test
+	public void PR09() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+
+		PO_PrivateView.clickOption(driver, "logout", "text", "Inicia Sesión");
+	}
+
+	// PR10. Comprobar que el botón cerrar sesión no está visible si el usuario no
+	// está autenticado.
+	@Test
+	public void PR10() {
+		SeleniumUtils.textoNoPresentePagina(driver, "Cerrar Sesión");
+	}
 
 	// PR11. Mostrar el listado de usuarios y comprobar que se muestran todos los
 	// que existen en el sistema.
-//	@Test
-//	public void PR11() {
-//		//Accedemos automáticamente después de iniciar sesión
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//		
-//		//PO_PrivateView.checkUserList(driver, "99999990A", "99999991B", "99999992C", "99999993D", "99999977E"); corregir
-//		SeleniumUtils.textoPresentePagina(driver, "99999990A");
-//		SeleniumUtils.textoPresentePagina(driver, "99999991B");
-//		SeleniumUtils.textoPresentePagina(driver, "99999992C");
-//		SeleniumUtils.textoPresentePagina(driver, "99999993D");
-//		SeleniumUtils.textoPresentePagina(driver, "99999977E");
-//		
-//		// Segunda Página
-//		PO_PrivateView.clickLink(driver, "?page=1");
-//		SeleniumUtils.textoPresentePagina(driver, "99999994E");
-//	}
-//
-//	// PR12. Hacer una búsqueda con el campo vacío y comprobar que se muestra la
-//	// página que corresponde
-//	// con el listado usuarios existentes en el sistema.
-//	@Test
-//	public void PR12() {
-//		//Iniciamos sesión
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//		// Introducimos el texto de búsqueda
-//		PO_PrivateView.fillSearch(driver, "");
-//		// Comprobamos que aparecen todos los usuarios
-//		SeleniumUtils.textoPresentePagina(driver, "99999990A");
-//		SeleniumUtils.textoPresentePagina(driver, "99999991B");
-//		SeleniumUtils.textoPresentePagina(driver, "99999992C");
-//		SeleniumUtils.textoPresentePagina(driver, "99999993D");
-//		SeleniumUtils.textoPresentePagina(driver, "99999977E");
-//		
-//		PO_PrivateView.clickLink(driver, "?page=1");
-//		SeleniumUtils.textoPresentePagina(driver, "99999994E");
-//	}
-//
-//	// PR13. Hacer una búsqueda escribiendo en el campo un texto que no exista y
-//	// comprobar que se muestra la página que corresponde, con la lista de usuarios
-//	// vacía.
-//	@Test
-//	public void PR13() { // mejorar
-//		//Iniciamos sesión
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//		// Introducimos el texto de búsqueda
-//		PO_PrivateView.fillSearch(driver, "me");
-//		// Comprobamos que no aparece ningún usuario
-//		SeleniumUtils.textoNoPresentePagina(driver, "99999990A");
-//		SeleniumUtils.textoNoPresentePagina(driver, "99999991B");
-//		SeleniumUtils.textoNoPresentePagina(driver, "99999992C");
-//		SeleniumUtils.textoNoPresentePagina(driver, "99999993D");
-//		SeleniumUtils.textoNoPresentePagina(driver, "99999977E");
-//		SeleniumUtils.textoNoPresentePagina(driver, "99999994E");
-//	}
-//
-//	// PR14. Hacer una búsqueda con un texto específico y comprobar que se muestra
-//	// la página que corresponde, con la lista de usuarios en los que el texto
-//	// especificados sea parte de su nombre, apellidos o de su email.
-//	@Test
-//	public void PR14() {
-//		//Iniciamos sesión
-//				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//				PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//				// Introducimos el texto de búsqueda
-//				PO_PrivateView.fillSearch(driver, "lu");
-//				
-//				SeleniumUtils.textoPresentePagina(driver, "99999991B");
-//				SeleniumUtils.textoPresentePagina(driver, "99999994E");
-//	}
-//	
+	@Test
+	public void PR11() {
+		// Accedemos automáticamente después de iniciar sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+
+		SeleniumUtils.textoPresentePagina(driver, "pedro@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "lucas@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "maria@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "marta@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "pelayo@email.com");
+
+		// Segunda Página
+		PO_PrivateView.clickLink(driver, "?page=1");
+		SeleniumUtils.textoPresentePagina(driver, "lucia@email.com");
+	}
+
+	// PR12. Hacer una búsqueda con el campo vacío y comprobar que se muestra la
+	// página que corresponde
+	// con el listado usuarios existentes en el sistema.
+	@Test
+	public void PR12() {
+		// Iniciamos sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		// Introducimos el texto de búsqueda
+		PO_PrivateView.fillSearch(driver, "");
+		// Comprobamos que aparecen todos los usuarios
+		SeleniumUtils.textoPresentePagina(driver, "pedro@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "lucas@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "maria@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "marta@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "pelayo@email.com");
+
+		PO_PrivateView.clickLink(driver, "?page=1");
+		SeleniumUtils.textoPresentePagina(driver, "lucia@email.com");
+	}
+
+	// PR13. Hacer una búsqueda escribiendo en el campo un texto que no exista y
+	// comprobar que se muestra la página que corresponde, con la lista de usuarios
+	// vacía.
+	@Test
+	public void PR13() { // mejorar
+		// Iniciamos sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		// Introducimos el texto de búsqueda
+		PO_PrivateView.fillSearch(driver, "me");
+		// Comprobamos que no aparece ningún usuario
+		SeleniumUtils.textoNoPresentePagina(driver, "pedro@email.com");
+		SeleniumUtils.textoNoPresentePagina(driver, "lucas@email.com");
+		SeleniumUtils.textoNoPresentePagina(driver, "maria@email.com");
+		SeleniumUtils.textoNoPresentePagina(driver, "marta@email.com");
+		SeleniumUtils.textoNoPresentePagina(driver, "pelayo@email.com");
+		SeleniumUtils.textoNoPresentePagina(driver, "lucia@email.com");
+	}
+
+	// PR14. Hacer una búsqueda con un texto específico y comprobar que se muestra
+	// la página que corresponde, con la lista de usuarios en los que el texto
+	// especificados sea parte de su nombre, apellidos o de su email.
+	@Test
+	public void PR14() {
+		// Iniciamos sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		// Introducimos el texto de búsqueda
+		PO_PrivateView.fillSearch(driver, "lu");
+
+		SeleniumUtils.textoPresentePagina(driver, "lucas@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "lucia@email.com");
+	}
+
 	// PR24. Ir al formulario crear publicaciones, rellenarla con datos válidos y
 	// pulsar el botón Submit. Comprobar que la publicación sale en el listado de
 	// publicaciones de dicho usuario.
 	@Test
 	public void PR24() { // mejorar
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(driver, "99999990A", "123456");
+		PO_LoginView.fillForm(driver, "pedro@email.com", "123456");
 
 		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
 		PO_PostView.fillForm(driver, "Mi primer post", "Hola Mundo!");
@@ -257,7 +260,7 @@ public class NotaneitorTests {
 	@Test
 	public void PR25() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(driver, "99999990A", "123456");
+		PO_LoginView.fillForm(driver, "pedro@email.com", "123456");
 
 		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
 		PO_PostView.fillForm(driver, " ", "Hola Mundo!");
@@ -274,7 +277,7 @@ public class NotaneitorTests {
 	@Test
 	public void PR26() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(driver, "99999990A", "123456");
+		PO_LoginView.fillForm(driver, "pedro@email.com", "123456");
 
 		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
 		PO_PostView.fillForm(driver, "Mi primer post: hola mundo", "Hola, Mundo!");
@@ -300,14 +303,14 @@ public class NotaneitorTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 
-		SeleniumUtils.textoPresentePagina(driver, "99999990A");
-		SeleniumUtils.textoPresentePagina(driver, "99999991B");
-		SeleniumUtils.textoPresentePagina(driver, "99999992C");
-		SeleniumUtils.textoPresentePagina(driver, "99999993D");
-		SeleniumUtils.textoPresentePagina(driver, "99999977E");
+		SeleniumUtils.textoPresentePagina(driver, "pedro@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "lucas@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "maria@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "marta@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "pelayo@email.com");
 
 		PO_PrivateView.clickLink(driver, "?page=1");
-		SeleniumUtils.textoPresentePagina(driver, "99999994E");
+		SeleniumUtils.textoPresentePagina(driver, "lucia@email.com");
 
 	}
 

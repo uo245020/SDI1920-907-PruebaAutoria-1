@@ -16,22 +16,22 @@ public class InsertSampleDataService {
 
 	@PostConstruct
 	public void init() {
-		User user1 = new User("99999990A", "Pedro", "Díaz");
+		User user1 = new User("pedro@email.com", "Pedro", "Díaz");
 		user1.setPassword("123456");
 		user1.setRole(rolesService.getRoles()[0]);
-		User user2 = new User("99999991B", "Lucas", "Núñez");
+		User user2 = new User("lucas@email.com", "Lucas", "Núñez");
 		user2.setPassword("123456");
 		user2.setRole(rolesService.getRoles()[0]);
-		User user3 = new User("99999992C", "María", "Rodríguez");
+		User user3 = new User("maria@email.com", "María", "Rodríguez");
 		user3.setPassword("123456");
 		user3.setRole(rolesService.getRoles()[0]);
-		User user4 = new User("99999993D", "Marta", "Almonte");
+		User user4 = new User("marta@email.com", "Marta", "Almonte");
 		user4.setPassword("123456");
 		user4.setRole(rolesService.getRoles()[0]);
-		User user5 = new User("99999977E", "Pelayo", "Valdes");
+		User user5 = new User("pelayo@email.com", "Pelayo", "Valdes");
 		user5.setPassword("123456");
 		user5.setRole(rolesService.getRoles()[0]);
-		User user6 = new User("99999994E", "Lucía", "Fernández");
+		User user6 = new User("lucia@email.com", "Lucía", "Fernández");
 		user6.setPassword("123456");
 		user6.setRole(rolesService.getRoles()[0]);
 		User user7 = new User("admin@email.com", "Edward", "Núñez");
