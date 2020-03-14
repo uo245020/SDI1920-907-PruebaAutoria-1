@@ -11,26 +11,30 @@
 				<input name="searchText" type="text" class="form-control" size="50"
 					placeholder="Buscar por título">
 			</div>
-			<button type="submit" class="btn btn-default" th:text="#{search.message}"></button>
+			<button type="submit" class="btn btn-default"
+				th:text="#{search.message}"></button>
 		</form>
 		<p></p>
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th  th:text="#{title.message}">Título</th>
-						<th  th:text="#{text.message}">Texto</th>
+						<th th:text="#{date.message}">Fecha</th>
+						<th th:text="#{title.message}">Título</th>
+						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="post : ${postsList}">
+						<td th:text="${post.getDate()}"></td>
 						<td th:text="${post.title}"></td>
-						<td th:text="${post.text}"></td>
-						<td><a th:href="${'/post/details/'}" th:text="#{details.message}">detalles</a></td>
+						<td><a th:href="${'/post/details/'}"
+							th:text="#{details.message}">detalles</a></td>
 						<td><a th:href="${'/post/edit/'}" th:text="#{edit.message}">modificar</a>
-						<td><a th:href="${'/post/delete/'}" th:text="#{delete.message}">eliminar</a></td>
+						<td><a th:href="${'/post/delete/'}"
+							th:text="#{delete.message}">eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

@@ -12,7 +12,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
-import com.uniovi.tests.pageobjects.PO_PrivateView;
+import com.uniovi.tests.pageobjects.PO_PostView;
+import com.uniovi.tests.pageobjects.PO_Properties;
+import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
 //Ordenamos las pruebas por el nombre del método
@@ -178,92 +180,92 @@ public class NotaneitorTests {
 //		SeleniumUtils.textoPresentePagina(driver, "99999994E");
 //	}
 //
-	// PR12. Hacer una búsqueda con el campo vacío y comprobar que se muestra la
-	// página que corresponde
-	// con el listado usuarios existentes en el sistema.
-	@Test
-	public void PR12() {
-		//Iniciamos sesión
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-		// Introducimos el texto de búsqueda
-		PO_PrivateView.fillSearch(driver, "");
-		// Comprobamos que aparecen todos los usuarios
-		SeleniumUtils.textoPresentePagina(driver, "99999990A");
-		SeleniumUtils.textoPresentePagina(driver, "99999991B");
-		SeleniumUtils.textoPresentePagina(driver, "99999992C");
-		SeleniumUtils.textoPresentePagina(driver, "99999993D");
-		SeleniumUtils.textoPresentePagina(driver, "99999977E");
-		
-		PO_PrivateView.clickLink(driver, "?page=1");
-		SeleniumUtils.textoPresentePagina(driver, "99999994E");
-	}
-
-	// PR13. Hacer una búsqueda escribiendo en el campo un texto que no exista y
-	// comprobar que se muestra la página que corresponde, con la lista de usuarios
-	// vacía.
-	@Test
-	public void PR13() { // mejorar
-		//Iniciamos sesión
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-		// Introducimos el texto de búsqueda
-		PO_PrivateView.fillSearch(driver, "me");
-		// Comprobamos que no aparece ningún usuario
-		SeleniumUtils.textoNoPresentePagina(driver, "99999990A");
-		SeleniumUtils.textoNoPresentePagina(driver, "99999991B");
-		SeleniumUtils.textoNoPresentePagina(driver, "99999992C");
-		SeleniumUtils.textoNoPresentePagina(driver, "99999993D");
-		SeleniumUtils.textoNoPresentePagina(driver, "99999977E");
-		SeleniumUtils.textoNoPresentePagina(driver, "99999994E");
-	}
-
-	// PR14. Hacer una búsqueda con un texto específico y comprobar que se muestra
-	// la página que corresponde, con la lista de usuarios en los que el texto
-	// especificados sea parte de su nombre, apellidos o de su email.
-	@Test
-	public void PR14() {
-		//Iniciamos sesión
-				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-				PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-				// Introducimos el texto de búsqueda
-				PO_PrivateView.fillSearch(driver, "lu");
-				
-				SeleniumUtils.textoPresentePagina(driver, "99999991B");
-				SeleniumUtils.textoPresentePagina(driver, "99999994E");
-	}
+//	// PR12. Hacer una búsqueda con el campo vacío y comprobar que se muestra la
+//	// página que corresponde
+//	// con el listado usuarios existentes en el sistema.
+//	@Test
+//	public void PR12() {
+//		//Iniciamos sesión
+//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+//		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+//		// Introducimos el texto de búsqueda
+//		PO_PrivateView.fillSearch(driver, "");
+//		// Comprobamos que aparecen todos los usuarios
+//		SeleniumUtils.textoPresentePagina(driver, "99999990A");
+//		SeleniumUtils.textoPresentePagina(driver, "99999991B");
+//		SeleniumUtils.textoPresentePagina(driver, "99999992C");
+//		SeleniumUtils.textoPresentePagina(driver, "99999993D");
+//		SeleniumUtils.textoPresentePagina(driver, "99999977E");
+//		
+//		PO_PrivateView.clickLink(driver, "?page=1");
+//		SeleniumUtils.textoPresentePagina(driver, "99999994E");
+//	}
+//
+//	// PR13. Hacer una búsqueda escribiendo en el campo un texto que no exista y
+//	// comprobar que se muestra la página que corresponde, con la lista de usuarios
+//	// vacía.
+//	@Test
+//	public void PR13() { // mejorar
+//		//Iniciamos sesión
+//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+//		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+//		// Introducimos el texto de búsqueda
+//		PO_PrivateView.fillSearch(driver, "me");
+//		// Comprobamos que no aparece ningún usuario
+//		SeleniumUtils.textoNoPresentePagina(driver, "99999990A");
+//		SeleniumUtils.textoNoPresentePagina(driver, "99999991B");
+//		SeleniumUtils.textoNoPresentePagina(driver, "99999992C");
+//		SeleniumUtils.textoNoPresentePagina(driver, "99999993D");
+//		SeleniumUtils.textoNoPresentePagina(driver, "99999977E");
+//		SeleniumUtils.textoNoPresentePagina(driver, "99999994E");
+//	}
+//
+//	// PR14. Hacer una búsqueda con un texto específico y comprobar que se muestra
+//	// la página que corresponde, con la lista de usuarios en los que el texto
+//	// especificados sea parte de su nombre, apellidos o de su email.
+//	@Test
+//	public void PR14() {
+//		//Iniciamos sesión
+//				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+//				PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+//				// Introducimos el texto de búsqueda
+//				PO_PrivateView.fillSearch(driver, "lu");
+//				
+//				SeleniumUtils.textoPresentePagina(driver, "99999991B");
+//				SeleniumUtils.textoPresentePagina(driver, "99999994E");
+//	}
 //	
-//	// PR24. Ir al formulario crear publicaciones, rellenarla con datos válidos y
-//	// pulsar el botón Submit. Comprobar que la publicación sale en el listado de
-//	// publicaciones de dicho usuario.
-//	@Test
-//	public void PR24() { // mejorar
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-//		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
-//		
-//		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
-//		PO_PostView.fillForm(driver, "Mi primer post", "Hola Mundo!");
-//		
-//		SeleniumUtils.textoPresentePagina(driver, "Mis publicaciones");
-//		SeleniumUtils.textoPresentePagina(driver, "Mi primer post");
-//	}
-//
-//	// PR25. Ir al formulario de crear publicaciones, rellenarla con datos inválidos
-//	// (campo título vacío) y pulsar el botón Submit. Comprobar que se muestra el
-//	// mensaje de campo obligatorio.
-//	@Test
-//	public void PR25() {
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-//		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
-//		
-//		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
-//		PO_PostView.fillForm(driver, " ", "Hola Mundo!");
-//		PO_View.getP(); 
-//		PO_PostView.checkKey(driver, "Error.post.title.length", PO_Properties.getSPANISH());
-//
-//		PO_PostView.fillForm(driver, "Mi primer post", " ");
-//		PO_PostView.checkKey(driver, "Error.post.text.length", PO_Properties.getSPANISH());
-//		
-//	}
+	// PR24. Ir al formulario crear publicaciones, rellenarla con datos válidos y
+	// pulsar el botón Submit. Comprobar que la publicación sale en el listado de
+	// publicaciones de dicho usuario.
+	@Test
+	public void PR24() { // mejorar
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
+		
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
+		PO_PostView.fillForm(driver, "Mi primer post", "Hola Mundo!");
+		
+		SeleniumUtils.textoPresentePagina(driver, "Mis publicaciones");
+		SeleniumUtils.textoPresentePagina(driver, "Mi primer post");
+	}
+
+	// PR25. Ir al formulario de crear publicaciones, rellenarla con datos inválidos
+	// (campo título vacío) y pulsar el botón Submit. Comprobar que se muestra el
+	// mensaje de campo obligatorio.
+	@Test
+	public void PR25() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
+		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
+		
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
+		PO_PostView.fillForm(driver, " ", "Hola Mundo!");
+		PO_View.getP(); 
+		PO_PostView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+
+		PO_PostView.fillForm(driver, "Mi primer post", " ");
+		PO_PostView.checkKey(driver, "Error.post.text.length", PO_Properties.getSPANISH());
+		
+	}
 
 }

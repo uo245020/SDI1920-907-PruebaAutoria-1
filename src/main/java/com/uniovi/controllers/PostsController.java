@@ -1,8 +1,7 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,27 +32,20 @@ public class PostsController {
 	@RequestMapping("/post/list")
 	public String getList(Model model, Principal principal,
 			@RequestParam(value = "", required = false) String searchText) {
-		// List<Post> posts = new ArrayList<>();
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-//		if (searchText != null && !searchText.isEmpty()) {
-//			searchText = "%" + searchText + "%";
-//			
-//		} else {
-//			posts = postsService.getPostsForUser(user);
-//		}
 		model.addAttribute("postsList", postsService.getPostsForUser(user));
 		return "post/list";
 	}
 
 	@RequestMapping(value = "/post/add")
 	public String getMark(Model model) {
-		//model.addAttribute("usersList", usersService.getUsers());
+		// model.addAttribute("usersList", usersService.getUsers());
 		model.addAttribute("post", new Post());
 		return "post/add";
 	}
 
-	@RequestMapping(value = "/post/add", method = RequestMethod.POST) // fecha
+	@RequestMapping(value = "/post/add", method = RequestMethod.POST)
 	public String setPost(Model model, Principal principal, @Validated Post post, BindingResult result) {
 		createPostValidator.validate(post, result);
 		model.addAttribute("post", post);
@@ -62,6 +54,7 @@ public class PostsController {
 		}
 		User user = usersService.getUserByEmail(principal.getName());
 		post.setUser(user);
+		post.setDate(new Date());
 		postsService.addPost(post);
 		return "redirect:/post/list";
 	}
@@ -98,22 +91,21 @@ public class PostsController {
 //	public String goHome() {
 //		return "/";
 //	}
-	
-	
+
 	@RequestMapping("/post/friendList")
 	public String geFriendtList(Model model, Principal principal,
 			@RequestParam(value = "", required = false) String searchText) {
 		// List<Post> posts = new ArrayList<>();
-				String email = principal.getName();
-				User user = usersService.getUserByEmail(email);
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
 //				if (searchText != null && !searchText.isEmpty()) {
 //					searchText = "%" + searchText + "%";
 //					
 //				} else {
 //					posts = postsService.getPostsForUser(user);
 //				}
-				model.addAttribute("friendPostList", postsService.getPostsForUser(user));
-				return "post/friendlist";
+		model.addAttribute("friendPostList", postsService.getPostsForUser(user));
+		return "post/friendlist";
 	}
 
 }
