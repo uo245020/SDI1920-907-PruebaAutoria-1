@@ -160,47 +160,78 @@ public class NotaneitorTests {
 
 	// PR11. Mostrar el listado de usuarios y comprobar que se muestran todos los
 	// que existen en el sistema.
+//	@Test
+//	public void PR11() {
+//		//Accedemos automáticamente después de iniciar sesión
+//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+//		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+//		
+//		//PO_PrivateView.checkUserList(driver, "99999990A", "99999991B", "99999992C", "99999993D", "99999977E"); corregir
+//		SeleniumUtils.textoPresentePagina(driver, "99999990A");
+//		SeleniumUtils.textoPresentePagina(driver, "99999991B");
+//		SeleniumUtils.textoPresentePagina(driver, "99999992C");
+//		SeleniumUtils.textoPresentePagina(driver, "99999993D");
+//		SeleniumUtils.textoPresentePagina(driver, "99999977E");
+//		
+//		// Segunda Página
+//		PO_PrivateView.clickLink(driver, "?page=1");
+//		SeleniumUtils.textoPresentePagina(driver, "99999994E");
+//	}
+//
+	// PR12. Hacer una búsqueda con el campo vacío y comprobar que se muestra la
+	// página que corresponde
+	// con el listado usuarios existentes en el sistema.
 	@Test
-	public void PR11() {
-		//Accedemos automáticamente después de iniciar sesión
+	public void PR12() {
+		//Iniciamos sesión
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-		
-		//PO_PrivateView.checkUserList(driver, "99999990A", "99999991B", "99999992C", "99999993D", "99999977E"); corregir
+		// Introducimos el texto de búsqueda
+		PO_PrivateView.fillSearch(driver, "");
+		// Comprobamos que aparecen todos los usuarios
 		SeleniumUtils.textoPresentePagina(driver, "99999990A");
 		SeleniumUtils.textoPresentePagina(driver, "99999991B");
 		SeleniumUtils.textoPresentePagina(driver, "99999992C");
 		SeleniumUtils.textoPresentePagina(driver, "99999993D");
 		SeleniumUtils.textoPresentePagina(driver, "99999977E");
 		
-		// Segunda Página
 		PO_PrivateView.clickLink(driver, "?page=1");
 		SeleniumUtils.textoPresentePagina(driver, "99999994E");
 	}
-//
-//	// PR12. Hacer una búsqueda con el campo vacío y comprobar que se muestra la
-//	// página que corresponde
-//	// con el listado usuarios existentes en el sistema.
-//	@Test
-//	public void PR12() {
-//	
-//	}
-//
-//	// PR13. Hacer una búsqueda escribiendo en el campo un texto que no exista y
-//	// comprobar que se muestra la página que corresponde, con la lista de usuarios
-//	// vacía.
-//	@Test
-//	public void PR13() {
-//		
-//	}
-//
-//	// PR14. Hacer una búsqueda con un texto específico y comprobar que se muestra
-//	// la página que corresponde, con la lista de usuarios en los que el texto
-//	// especificados sea parte de su nombre, apellidos o de su email.
-//	@Test
-//	public void PR14() {
-//		
-//	}
+
+	// PR13. Hacer una búsqueda escribiendo en el campo un texto que no exista y
+	// comprobar que se muestra la página que corresponde, con la lista de usuarios
+	// vacía.
+	@Test
+	public void PR13() { // mejorar
+		//Iniciamos sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		// Introducimos el texto de búsqueda
+		PO_PrivateView.fillSearch(driver, "me");
+		// Comprobamos que no aparece ningún usuario
+		SeleniumUtils.textoNoPresentePagina(driver, "99999990A");
+		SeleniumUtils.textoNoPresentePagina(driver, "99999991B");
+		SeleniumUtils.textoNoPresentePagina(driver, "99999992C");
+		SeleniumUtils.textoNoPresentePagina(driver, "99999993D");
+		SeleniumUtils.textoNoPresentePagina(driver, "99999977E");
+		SeleniumUtils.textoNoPresentePagina(driver, "99999994E");
+	}
+
+	// PR14. Hacer una búsqueda con un texto específico y comprobar que se muestra
+	// la página que corresponde, con la lista de usuarios en los que el texto
+	// especificados sea parte de su nombre, apellidos o de su email.
+	@Test
+	public void PR14() {
+		//Iniciamos sesión
+				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+				PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+				// Introducimos el texto de búsqueda
+				PO_PrivateView.fillSearch(driver, "lu");
+				
+				SeleniumUtils.textoPresentePagina(driver, "99999991B");
+				SeleniumUtils.textoPresentePagina(driver, "99999994E");
+	}
 //	
 //	// PR24. Ir al formulario crear publicaciones, rellenarla con datos válidos y
 //	// pulsar el botón Submit. Comprobar que la publicación sale en el listado de
