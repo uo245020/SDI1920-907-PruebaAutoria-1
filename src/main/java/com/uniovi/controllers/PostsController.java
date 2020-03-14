@@ -92,11 +92,11 @@ public class PostsController {
 //		return "/";
 //	}
 
-	@RequestMapping("/post/friendList")
-	public String geFriendtList(Model model, Principal principal,
+	@RequestMapping("/post/friendList/{email}")
+	public String geFriendtList(Model model, @PathVariable String email,
 			@RequestParam(value = "", required = false) String searchText) {
+		System.out.println("aaaaa");
 		// List<Post> posts = new ArrayList<>();
-		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
 //				if (searchText != null && !searchText.isEmpty()) {
 //					searchText = "%" + searchText + "%";
@@ -105,7 +105,7 @@ public class PostsController {
 //					posts = postsService.getPostsForUser(user);
 //				}
 		model.addAttribute("friendPostList", postsService.getPostsForUser(user));
-		return "post/friendlist";
+		return "post/friendList";
 	}
 
 }
