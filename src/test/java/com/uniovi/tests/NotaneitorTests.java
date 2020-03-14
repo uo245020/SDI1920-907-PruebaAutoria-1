@@ -269,6 +269,29 @@ public class NotaneitorTests {
 
 	}
 
+	// PR26. Mostrar el listado de publicaciones de un usuario y comprobar que se
+	// muestran todas las que existen para dicho usuario.
+	@Test
+	public void PR26() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "99999990A", "123456");
+
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
+		PO_PostView.fillForm(driver, "Mi primer post: hola mundo", "Hola, Mundo!");
+		// Redirige a la lista de publicaciones
+		SeleniumUtils.textoPresentePagina(driver, "Mi primer post: hola mundo");
+		
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
+		PO_PostView.fillForm(driver, "Mi segundo post: hola mundo", "Hola, Mundo!");
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
+		PO_PostView.fillForm(driver, "Mi tercer post: hola mundo", "Hola, Mundo!");
+		
+		SeleniumUtils.textoPresentePagina(driver, "Mi primer post: hola mundo");
+		SeleniumUtils.textoPresentePagina(driver, "Mi segundo post: hola mundo");
+		SeleniumUtils.textoPresentePagina(driver, "Mi tercer post: hola mundo");
+
+	}
+
 	@Test
 	// P231. Mostrar el listado de usuarios y comprobar que se muestran todos los
 	// que existen en el sistema.
