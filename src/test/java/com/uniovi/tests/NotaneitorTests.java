@@ -13,6 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_PostView;
+import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
@@ -240,12 +241,12 @@ public class NotaneitorTests {
 	// publicaciones de dicho usuario.
 	@Test
 	public void PR24() { // mejorar
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
-		
-		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "99999990A", "123456");
+
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
 		PO_PostView.fillForm(driver, "Mi primer post", "Hola Mundo!");
-		
+
 		SeleniumUtils.textoPresentePagina(driver, "Mis publicaciones");
 		SeleniumUtils.textoPresentePagina(driver, "Mi primer post");
 	}
@@ -255,17 +256,36 @@ public class NotaneitorTests {
 	// mensaje de campo obligatorio.
 	@Test
 	public void PR25() {
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary"); 
-		PO_LoginView.fillForm(driver, "99999990A", "123456"); 
-		
-		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary"); 
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "99999990A", "123456");
+
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
 		PO_PostView.fillForm(driver, " ", "Hola Mundo!");
-		PO_View.getP(); 
+		PO_View.getP();
 		PO_PostView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 
 		PO_PostView.fillForm(driver, "Mi primer post", " ");
 		PO_PostView.checkKey(driver, "Error.post.text.length", PO_Properties.getSPANISH());
-		
+
+	}
+
+	@Test
+	// P231. Mostrar el listado de usuarios y comprobar que se muestran todos los
+	// que existen en el sistema.
+	public void PR31() {
+		// Accedemos automáticamente después de iniciar sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+
+		SeleniumUtils.textoPresentePagina(driver, "99999990A");
+		SeleniumUtils.textoPresentePagina(driver, "99999991B");
+		SeleniumUtils.textoPresentePagina(driver, "99999992C");
+		SeleniumUtils.textoPresentePagina(driver, "99999993D");
+		SeleniumUtils.textoPresentePagina(driver, "99999977E");
+
+		PO_PrivateView.clickLink(driver, "?page=1");
+		SeleniumUtils.textoPresentePagina(driver, "99999994E");
+
 	}
 
 }
