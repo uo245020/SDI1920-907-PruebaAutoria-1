@@ -1,5 +1,7 @@
 package com.uniovi.tests;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -8,10 +10,17 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import static org.junit.Assert.assertTrue;
+
+
+
 import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_InvitationView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PostView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
@@ -23,7 +32,7 @@ import com.uniovi.tests.util.SeleniumUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NotaneitorTests {
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\nutba\\Desktop\\Universidad\\3º\\SECOND SEMESTER\\SDI\\LAB\\lab05\\OneDrive_2020-03-02\\PL-SDI-Sesio╠ün5-material\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\Usuario\\Desktop\\2019-20\\Segundo Semestre\\SDI\\geckodriver022win64.exe";
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8080";
 
@@ -238,6 +247,141 @@ public class NotaneitorTests {
 		SeleniumUtils.textoPresentePagina(driver, "lucas@email.com");
 		SeleniumUtils.textoPresentePagina(driver, "lucia@email.com");
 	}
+	
+	
+	// PR15. Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario.
+	//Comprobar que la solicitud de amistad aparece en el listado de invitaciones (punto siguiente).
+	@Test
+	public void PR15() {
+		// Vamos al formulario de logueo.
+				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+				// Rellenamos el formulario
+				PO_LoginView.fillForm(driver, "maria@email.com", "123456");
+				// Comprobamos que entramos en la pagina privada de Maria
+				PO_View.checkElement(driver, "text", "Usuarios");
+
+				PO_InvitationView.clickEnlace(driver, "Marta");
+	}
+	
+	//PR16. Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario al
+	//que ya le habíamos enviado la invitación previamente. No debería dejarnos enviar la invitación, se podría
+	//ocultar el botón de enviar invitación o notificar que ya había sido enviada previamente.
+	@Test
+	public void PR16() {
+		// Vamos al formulario de logueo.
+				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+				// Rellenamos el formulario
+				PO_LoginView.fillForm(driver, "maria@email.com", "123456");
+				// Comprobamos que entramos en la pagina privada de Maria
+				PO_View.checkElement(driver, "text", "Usuarios");
+				//Desaparece el boton por lo que si descomentamos la siguiente linea da error
+				//PO_InvitationView.clickEnlace(driver, "Marta");
+		
+	}
+	
+	//PR17. Mostrar el listado de invitaciones de amistad recibidas. Comprobar con un listado que
+	//contenga varias invitaciones recibidas
+	@Test
+	public void PR17() {
+		// Vamos al formulario de logueo.
+				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+			
+				// Rellenamos el formulario
+				PO_LoginView.fillForm(driver, "lucas@email.com", "123456");
+				// Comprobamos que entramos en la pagina privada de Lucas
+				PO_View.checkElement(driver, "text", "Usuarios");
+
+				PO_InvitationView.clickEnlace(driver, "Pelayo");
+
+				PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+				
+				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+				// Rellenamos el formulario
+				PO_LoginView.fillForm(driver, "pedro@email.com", "123456");
+				// Comprobamos que entramos en la pagina privada de Pedro
+				PO_View.checkElement(driver, "text", "Usuarios");
+
+				PO_InvitationView.clickEnlace(driver, "Pelayo");
+
+				PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+				
+				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+				// Rellenamos el formulario
+				PO_LoginView.fillForm(driver, "marta@email.com", "123456");
+				// Comprobamos que entramos en la pagina privada de Marta
+				PO_View.checkElement(driver, "text", "Usuarios");
+
+				PO_InvitationView.clickEnlace(driver, "Pelayo");
+
+				PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+
+				// Vamos al formulario de logueo.
+				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+				// Rellenamos el formulario
+				PO_LoginView.fillForm(driver, "pelayo@email.com", "123456");
+				// Comprobamos que entramos en la pagina privada de Pelayo
+				PO_View.checkElement(driver, "text", "Usuarios");
+
+				List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'invitation-menu')]/a");
+				elementos.get(0).click();
+				elementos = PO_View.checkElement(driver, "free", "//a[contains(@href,'/user/invitationsList')]");
+				elementos.get(0).click();
+				elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+				PO_View.checkElement(driver, "text", "Marta");
+				PO_View.checkElement(driver, "text", "Pedro");
+				PO_View.checkElement(driver, "text", "Lucas");
+				
+				
+	}
+	
+	//PR18. Sobre el listado de invitaciones recibidas. Hacer click en el botón/enlace de una de ellas y
+	//comprobar que dicha solicitud desaparece del listado de invitaciones
+	@Test
+	public void PR18() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pelayo@email.com", "123456");
+		// Comprobamos que entramos en la pagina privada de Pelayo
+		PO_View.checkElement(driver, "text", "Usuarios");
+		//Aprovechamos las invitaciones creadas anteriormente
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'invitation-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href,'/user/invitationsList')]");
+		elementos.get(0).click();
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		//Aceptamos una invitacion
+		PO_InvitationView.clickEnlace(driver, "Marta");
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		//Comprobamos que la invitación desaparecio
+		assertTrue(elementos.size()==2);
+		//Aceptamos otra
+		PO_InvitationView.clickEnlace(driver, "Lucas");
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size()==1);
+		
+	}
+	
+	//PR19. Mostrar el listado de amigos de un usuario. Comprobar que el listado contiene los amigos
+	//que deben ser.
+	@Test
+	public void PR19() {
+		//Vamos al formulario de logueo
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pelayo@email.com", "123456");
+		// Comprobamos que entramos en la pagina privada de Alumno
+		PO_View.checkElement(driver, "text", "Usuarios");
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/friendsList')]");
+		elementos.get(0).click();
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		//Aprovechamos los dos amigos aceptados anteriormente
+		assertTrue(elementos.size() == 2);
+	}
+	
+
+	
+	
 
 	// PR24. Ir al formulario crear publicaciones, rellenarla con datos válidos y
 	// pulsar el botón Submit. Comprobar que la publicación sale en el listado de
