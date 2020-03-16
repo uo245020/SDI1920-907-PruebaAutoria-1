@@ -43,7 +43,7 @@
 						 th:href="${'/user/details/' + user.id}" th:text="#{details.message}">detalles</a></td>
 						<td><a sec:authorize="hasRole('ROLE_ADMIN')"
 						th:href="${'/user/delete/' + user.id}" th:text="#{delete.message}">eliminar</a></td>
-						<td><a th:id="${user.name}" th:if="${user.canInvite(user.email)}" th:text="#{userSendInvitation.message}" th:href="${'/sendInvitation/' + user.id}"></a></td> 
+						<td><a  sec:authorize="hasRole('ROLE_REGULAR')" th:id="${user.name}" th:if="${user.canInvite(user.email)}" th:text="#{userSendInvitation.message}" th:href="${'/sendInvitation/' + user.id}"></a></td> 
 					</tr>
 				</tbody>
 			</table>

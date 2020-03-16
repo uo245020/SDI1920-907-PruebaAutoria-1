@@ -9,18 +9,17 @@
 			</button>
 			<!--<img src="/img/home.png" alt="logo" />-->
 			<ul class="nav navbar-nav">
-				<li><a sec:authorize="hasAnyRole('ROLE_REGULAR','ROLE_ADMIN')"
-				href="/user/list"><span th:text="#{view.users}">Ver
+				<li><a href="/user/list"><span th:text="#{view.users}">Ver
 							Usuarios</span></a></li>
-				<li><a sec:authorize="hasAnyRole('ROLE_REGULAR','ROLE_ADMIN')" 
+				<li><a sec:authorize="hasRole('ROLE_REGULAR')" 
 				href="/user/friendsList" th:text="#{view.friends}">Ver Amigos</a></li>
 				<li><a sec:authorize="hasRole('ROLE_REGULAR')" href="/post/add"><span
 						th:text="#{add.message}">Crear publicación</span></a></li>
-				<li><a sec:authorize="hasAnyRole('ROLE_REGULAR','ROLE_ADMIN')"
-					href="/post/list"><span th:text="#{view_posts.message}">Ver
+				<li><a sec:authorize="hasRole('ROLE_REGULAR')" 
+				href="/post/list"><span th:text="#{view_posts.message}">Ver
 							mis publicaciones</span></a></li>
 				<li id="invitation-menu" class="dropdown"
-					sec:authorize="hasAnyRole('ROLE_REGULAR','ROLE_ADMIN')"><a
+					sec:authorize="hasRole('ROLE_REGULAR')"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#"
 					th:text="#{invitation.message}"> Invitaciones <span
 						class="caret"></span>
