@@ -10,4 +10,9 @@ public class HomeController {
 	public String goHome(){
 		return "home";
 	}
+	
+	@RequestMapping("/admin")
+	public String admin(){
+		return "admin";
+	}
 }
