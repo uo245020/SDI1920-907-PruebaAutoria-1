@@ -39,29 +39,20 @@ public class UsersController {
 	private RolesService rolesService;
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
-	
+
 	@Autowired
 	private InvitationsService invitationService;
 
 	@RequestMapping("/user/list")
-	public String getListado(Pageable pageable, Model model, @RequestParam(value = "", required = false) String searchText, Principal principal) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
+	public String getListado(Pageable pageable, Model model,
+			@RequestParam(value = "", required = false) String searchText, Principal principal) {
 		Page<User> users = new PageImpl<User>(new LinkedList<User>());
-		Page<User> usersAuxiliar = new PageImpl<User>(new LinkedList<User>());
 		if (searchText != null && !searchText.isEmpty()) {
 			searchText = "%" + searchText + "%";
 			users = usersService.searchUsersByNameAndSurname(pageable, searchText, principal.getName());
 		} else {
 			users = usersService.getAllUsersButYourself(pageable, principal.getName());
 		}
-//		for (int i=0;i<users.getSize();i++) {
-//			if(users.getContent().get(i).getEmail()!= email) {
-//				//Comprobamos que al usuario no le aparece el mismo
-//				usersAuxiliar.add(users.getContent().get(i));
-//			}
-//		}
-		//users=usersAuxiliar;
 		model.addAttribute("usersList", users.getContent());
 		model.addAttribute("page", users);
 		return "user/list";
@@ -78,7 +69,6 @@ public class UsersController {
 		usersService.deleteUser(id);
 		return "redirect:/user/list";
 	}
-
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
@@ -101,18 +91,16 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, String error) {
-		   if (error != null)
-	            model.addAttribute("error", error);
+		if (error != null)
+			model.addAttribute("error", error);
 		return "login";
 	}
-
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		return "home";
 	}
-	
-	
+
 	@RequestMapping(value = { "/sendInvitation/{id}" }, method = RequestMethod.GET)
 	public String sendInvitation(Model model, @PathVariable Long id, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -125,7 +113,7 @@ public class UsersController {
 		model.addAttribute("page", users);
 		return "redirect:/user/list";
 	}
-	
+
 	@RequestMapping(value = { "/user/invitationsList" }, method = RequestMethod.GET)
 	public String seeInvitations(Model model, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -136,7 +124,7 @@ public class UsersController {
 		model.addAttribute("page", invitations);
 		return "user/invitationsList";
 	}
-	
+
 	@RequestMapping(value = { "/acceptInvitation/{id}" }, method = RequestMethod.GET)
 	public String acceptInvitation(Model model, @PathVariable Long id, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -149,8 +137,7 @@ public class UsersController {
 		model.addAttribute("page", invitations);
 		return "user/invitationsList";
 	}
-	
-	
+
 	@RequestMapping(value = { "/user/friendsList" }, method = RequestMethod.GET)
 	public String seeFriendsList(Model model, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -161,20 +148,16 @@ public class UsersController {
 		model.addAttribute("page", friends);
 		return "user/friendsList";
 	}
-	
-	
+
 	@RequestMapping(value = "multipleDelete", method = RequestMethod.POST)
 	public String multipleDelete(Model model, HttpServletRequest request, ModelMap modelMap) {
 		if (request.getParameterValues("userId") != null) {
-		for (String id : request.getParameterValues("userId")) {
-			
-			usersService.deleteUser(Long.parseLong(id));
-		}
+			for (String id : request.getParameterValues("userId")) {
+
+				usersService.deleteUser(Long.parseLong(id));
+			}
 		}
 		return "redirect:/user/list";
 	}
-	
-	
-	
 
 }

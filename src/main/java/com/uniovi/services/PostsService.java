@@ -20,6 +20,7 @@ public class PostsService {
 	@Autowired
 	private HttpSession httpSession;
 
+	@SuppressWarnings("unchecked")
 	public Post getPost(Long id) {
 		Set<Post> consultedList = (Set<Post>) httpSession.getAttribute("consultedList");
 		if (consultedList == null) {
