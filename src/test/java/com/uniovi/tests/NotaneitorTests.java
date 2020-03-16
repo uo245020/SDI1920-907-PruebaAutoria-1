@@ -637,7 +637,7 @@ public class NotaneitorTests {
 			PO_PrivateView.clickLink(driver, "/user/delete/" +  Integer.toString(elementos.size() +1) );
 			List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 			assertTrue(elementos2.size() ==4);
-			//Comprobamos que ya no está la usuaria
+			//Comprobamos que ya no está el usuario
 			SeleniumUtils.textoNoPresentePagina(driver, "pablo@email.com");
 		}
 		
