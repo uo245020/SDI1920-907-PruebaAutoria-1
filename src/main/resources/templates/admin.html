@@ -4,11 +4,7 @@
 <body>
 	<nav th:replace="fragments/nav" />
 	<div class="container" style="text-align: center">
-		<h2>Administrar</h2>
-		<!--<p>
-			Usuario Autenticado como : <span
-				sec:authentication="principal.username" th:inline="text"> </span>
-		</p>-->
+		<h2 th:text="#{administrar.message}"></h2>
 	</div>
 	<footer th:replace="fragments/footer" />
 </body>

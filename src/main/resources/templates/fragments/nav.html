@@ -17,7 +17,8 @@
 						th:text="#{add.message}">Crear publicación</span></a></li>
 				<li><a href="/post/list"><span th:text="#{view_posts.message}">Ver
 							mis publicaciones</span></a></li>
-					<li><a sec:authorize="isAuthenticated()" href="/admin"><span>Administrar</span></a></li>		
+					<li><a th:text="#{administrar.message}" 
+					sec:authorize="isAuthenticated()" href="/admin"><span>Administrar</span></a></li>		
 				<li id="invitation-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_REGULAR')"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#"
