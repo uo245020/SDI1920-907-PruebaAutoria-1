@@ -33,7 +33,7 @@
 						<td>
 						<a sec:authorize="hasRole('ROLE_ADMIN')">
  								<input type="checkbox" class="chkCheckBoxId"
- 								th:value="${user.id}" name="userId" />
+ 								th:value="${user.id}" name="userId" th:id="${user.id}" />
 						</a>                 
                 </td>
 						<td th:text="${user.email}">71888888X</td>
@@ -43,14 +43,14 @@
 						 th:href="${'/user/details/' + user.id}" th:text="#{details.message}">detalles</a></td>
 						<td><a sec:authorize="hasRole('ROLE_ADMIN')"
 						th:href="${'/user/delete/' + user.id}" th:text="#{delete.message}">eliminar</a></td>
-						<td><a  sec:authorize="hasRole('ROLE_REGULAR')" th:id="${user.name}" th:if="${user.canInvite(user.email)}" th:text="#{userSendInvitation.message}" th:href="${'/sendInvitation/' + user.id}"></a></td> 
+						<td><a th:id="${user.name}" th:if="${user.canInvite(user.email)}" th:text="#{userSendInvitation.message}" th:href="${'/sendInvitation/' + user.id}"></a></td> 
 					</tr>
 				</tbody>
 			</table>
 			
 			<td>
 			<a sec:authorize="hasRole('ROLE_ADMIN')">
-			<input type="submit" value="Eliminar" onclick="return confirm('¿Realmente desea eliminar los usuari@s seleccionados?')"/>
+			<input type="submit" value="Eliminar" id="botonEliminar"/>
 			</a>
 		</td>
 		</form>

@@ -157,5 +157,15 @@ public class User {
 		}
 		return true;
 	}
+	
+	public boolean isFriend(User user) {
+		if (this.getFriends().contains(user)) {
+			return true;
+		}
+		else {
+		return false;
+		}
+	
+}
 
 }

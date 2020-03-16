@@ -9,10 +9,12 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
@@ -30,7 +32,7 @@ import com.uniovi.tests.util.SeleniumUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NotaneitorTests {
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\nutba\\Desktop\\Universidad\\3º\\SECOND SEMESTER\\SDI\\LAB\\lab05\\OneDrive_2020-03-02\\PL-SDI-Sesio╠ün5-material\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\Usuario\\Desktop\\2019-20\\Segundo Semestre\\SDI\\geckodriver022win64.exe";
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8080";
 
@@ -537,6 +539,51 @@ public class NotaneitorTests {
 		SeleniumUtils.textoPresentePagina(driver, "Mi tercer post: hola mundo");
 
 	}
+	
+	// PR27. Mostrar el listado de publicaciones de un usuario amigo y comprobar que se muestran todas
+	//las que existen para dicho usuario
+	@Test
+	public void PR27() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "pelayo@email.com", "123456");
+		//Creamos varios post
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
+		PO_PostView.fillForm(driver, "Mi primer post: hola mundo", "Hola, Mundo!");
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
+		PO_PostView.fillForm(driver, "Mi segundo post: hola mundo", "Hola, Mundo!");
+		PO_HomeView.clickOption(driver, "post/add", "class", "btn btn-primary");
+		PO_PostView.fillForm(driver, "Mi tercer post: hola mundo", "Hola, Mundo!");
+		//Nos desconectamos
+		PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+		//Vamos al formulario de logueo con un amigo creado anteriormente
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "lucas@email.com", "123456");
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/friendsList')]");
+		elementos.get(0).click();
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		PO_PrivateView.clickLink(driver, "/post/friendList/pelayo@email.com");
+		//elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		SeleniumUtils.textoPresentePagina(driver, "Mi primer post: hola mundo");
+		SeleniumUtils.textoPresentePagina(driver, "Mi segundo post: hola mundo");
+		SeleniumUtils.textoPresentePagina(driver, "Mi tercer post: hola mundo");
+		
+	}
+	
+	
+	//PR28. Utilizando un acceso vía URL u otra alternativa, tratar de listar las publicaciones de un
+	//usuario que no sea amigo del usuario identificado en sesión. Comprobar que el sistema da un error de
+	//autorización
+	@Test
+	public void PR28() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "marta@email.com", "123456");
+		String URLFallo = "http://localhost:8080/post/friendList/maria@email.com";
+		driver.navigate().to(URLFallo);
+		
+		SeleniumUtils.textoPresentePagina(driver, "No eres amig@ de este usuario");
+	}
+	
 
 	@Test
 	// P231. Mostrar el listado de usuarios y comprobar que se muestran todos los
@@ -556,5 +603,76 @@ public class NotaneitorTests {
 		SeleniumUtils.textoPresentePagina(driver, "lucia@email.com");
 
 	}
+	
+	//PR32. Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar que la lista se actualiza
+		//y dicho usuario desaparece
+		@Test
+		public void PR32() {
+			
+			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+			PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+			elementos.get(0).click();
+			elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+			assertTrue(elementos.get(0).getText().contains("Pedro"));
+			PO_PrivateView.clickLink(driver, "/user/delete/1");
+			List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+			//Comprobamos que ha desaparecido el usuario
+			assertFalse(elementos2.get(0).getText().contains("Pedro"));
+		}
+		
+		//PR33. Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
+		//y dicho usuario desaparece.
+		@Test
+		public void PR33() {
+			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+			PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+			elementos.get(0).click();
+			elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+			assertTrue(elementos.size()==5);
+			//Comprobamos que la usuaria de la ultima posicion se llama Lucia
+			assertTrue(elementos.get(elementos.size()-1).getText().contains("lucia@email.com"));
+			//Ponemos +1 ya que hacemos el borrado según el id y en el apartado anterior hemos eliminado un usuario, además de que los ids empiezan desde 1.
+			PO_PrivateView.clickLink(driver, "/user/delete/" +  Integer.toString(elementos.size() +1) );
+			List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+			assertTrue(elementos2.size() ==4);
+			//Comprobamos que ya no está la usuaria
+			SeleniumUtils.textoNoPresentePagina(driver, "lucia@email.com");
+		}
+		
+		//PR34. Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
+		//usuarios desaparecen
+		@Test
+		public void PR34() {
+			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+			PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+			elementos.get(0).click();
+			//Seleccionamos los tres usuarios a borrar
+			//Comprobamos que estan los usuarios:
+			SeleniumUtils.textoPresentePagina(driver, "lucas@email.com");
+			SeleniumUtils.textoPresentePagina(driver, "maria@email.com");
+			SeleniumUtils.textoPresentePagina(driver, "marta@email.com");
+			WebElement usuario1 = driver.findElement(By.id("2"));
+			usuario1.click();
+			WebElement usuario2 = driver.findElement(By.id("3"));
+			usuario2.click();
+			WebElement usuario3 = driver.findElement(By.id("4"));
+			usuario3.click();
+			WebElement boton = driver.findElement(By.id("botonEliminar"));
+			boton.click();
+			//Comprobamos que ya no están l@s usuari@s
+			SeleniumUtils.textoNoPresentePagina(driver, "lucas@email.com");
+			SeleniumUtils.textoNoPresentePagina(driver, "maria@email.com");
+			SeleniumUtils.textoNoPresentePagina(driver, "marta@email.com");
+			
+			
+			
+			
+			//elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+			
+		}
+		
 
 }

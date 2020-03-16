@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -95,7 +97,6 @@ public class PostsController {
 	@RequestMapping("/post/friendList/{email}")
 	public String geFriendtList(Model model, @PathVariable String email,
 			@RequestParam(value = "", required = false) String searchText) {
-		System.out.println("aaaaa");
 		// List<Post> posts = new ArrayList<>();
 		User user = usersService.getUserByEmail(email);
 //				if (searchText != null && !searchText.isEmpty()) {
@@ -104,8 +105,19 @@ public class PostsController {
 //				} else {
 //					posts = postsService.getPostsForUser(user);
 //				}
-		model.addAttribute("friendPostList", postsService.getPostsForUser(user));
-		return "post/friendList";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String activeEmail = auth.getName();
+		User activeUser = usersService.getUserByEmail(activeEmail);
+		if (user.isFriend(activeUser)) {
+			model.addAttribute("friendPostList", postsService.getPostsForUser(user));
+			return "post/friendList";
+		}
+		else {
+			return "post/errorList";
+		}
+		
+		
+		
 	}
 
 }
