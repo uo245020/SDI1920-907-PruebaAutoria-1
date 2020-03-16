@@ -57,6 +57,7 @@ public class NotaneitorTests {
 
 	@BeforeClass
 	static public void begin() {
+	
 	} // Al finalizar la última prueba
 
 	@AfterClass
@@ -539,7 +540,6 @@ public class NotaneitorTests {
 		SeleniumUtils.textoPresentePagina(driver, "Mi tercer post: hola mundo");
 
 	}
-	
 	// PR27. Mostrar el listado de publicaciones de un usuario amigo y comprobar que se muestran todas
 	//las que existen para dicho usuario
 	@Test
@@ -581,7 +581,7 @@ public class NotaneitorTests {
 		String URLFallo = "http://localhost:8080/post/friendList/maria@email.com";
 		driver.navigate().to(URLFallo);
 		
-		SeleniumUtils.textoPresentePagina(driver, "No eres amig@ de este usuario");
+		SeleniumUtils.textoPresentePagina(driver, "No eres");
 	}
 	
 
@@ -631,14 +631,14 @@ public class NotaneitorTests {
 			elementos.get(0).click();
 			elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 			assertTrue(elementos.size()==5);
-			//Comprobamos que la usuaria de la ultima posicion se llama Lucia
-			assertTrue(elementos.get(elementos.size()-1).getText().contains("lucia@email.com"));
+			//Comprobamos que la usuaria de la ultima posicion se llama Pablo
+			assertTrue(elementos.get(elementos.size()-1).getText().contains("pablo@email.com"));
 			//Ponemos +1 ya que hacemos el borrado según el id y en el apartado anterior hemos eliminado un usuario, además de que los ids empiezan desde 1.
 			PO_PrivateView.clickLink(driver, "/user/delete/" +  Integer.toString(elementos.size() +1) );
 			List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 			assertTrue(elementos2.size() ==4);
 			//Comprobamos que ya no está la usuaria
-			SeleniumUtils.textoNoPresentePagina(driver, "lucia@email.com");
+			SeleniumUtils.textoNoPresentePagina(driver, "pablo@email.com");
 		}
 		
 		//PR34. Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
@@ -673,6 +673,7 @@ public class NotaneitorTests {
 			//elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 			
 		}
-		
+
 
 }
+
