@@ -55,6 +55,7 @@ public class NotaneitorTests {
 
 	@BeforeClass
 	static public void begin() {
+	
 	} // Al finalizar la última prueba
 
 	@AfterClass
