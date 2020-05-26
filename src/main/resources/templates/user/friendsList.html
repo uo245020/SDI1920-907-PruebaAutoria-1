@@ -15,6 +15,7 @@
                             <th th:text="#{userDetailsName.message}">Nombre</th>
                             <th th:text="#{userDetailsLastName.message}">Apellidos</th>
                             <th th:text="#{userDetailsEmail.message}">Correo</th>
+                            
                             <th class="col-md-1"></th>
                             <th class="col-md-1"></th>
                             <th class="col-md-1"></th>
@@ -28,6 +29,8 @@
 						 th:href="${'/post/friendList/' + friend.email}" th:text="${friend.name}">Nombre</a></td>
                             <td th:text="${friend.lastName}">Apellidos</td>
                             <td th:text="${friend.email}">Correo</td>
+                             <td><a th:id="${friend.name}" th:if="${friend.canFavorito(friend.email)}" th:text="#{userSendFavorito.message}" th:href="${'/sendFavorito/' + friend.id}"></a></td>
+						 	<td><a th:id="${friend.name}" th:if="${friend.cantFavorito(friend.email)}" th:text="#{userDelFavorito.message}" th:href="${'/delFavorito/' + friend.id}"></a></td>
                         </tr>
                     </tbody>
                 </table>

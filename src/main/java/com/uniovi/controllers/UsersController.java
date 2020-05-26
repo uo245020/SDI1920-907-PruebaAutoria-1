@@ -101,6 +101,26 @@ public class UsersController {
 		return "home";
 	}
 
+	@RequestMapping(value = { "/sendFavorito/{id}" }, method = RequestMethod.GET)
+	public String sendFavorito(Model model, @PathVariable Long id, Pageable pageable) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User sender = usersService.getUserByEmail(email);
+		User receiver = usersService.getUser(id);
+		sender.marcarfavorito(receiver.getEmail());
+		return "redirect:/user/list";
+	}
+	
+	@RequestMapping(value = { "/delFavorito/{id}" }, method = RequestMethod.GET)
+	public String delFavorito(Model model, @PathVariable Long id, Pageable pageable) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User sender = usersService.getUserByEmail(email);
+		User receiver = usersService.getUser(id);
+		sender.borrarfavorito(receiver.getEmail());
+		return "redirect:/user/list";
+	}
+	
 	@RequestMapping(value = { "/sendInvitation/{id}" }, method = RequestMethod.GET)
 	public String sendInvitation(Model model, @PathVariable Long id, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

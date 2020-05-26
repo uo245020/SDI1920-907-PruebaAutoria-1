@@ -1,5 +1,6 @@
 package com.uniovi.entities;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -42,6 +43,8 @@ public class User {
 
 	@OneToMany(mappedBy = "usuarioRecibe")
 	private Set<Invitation> receivedInvitations;
+	
+	ArrayList<String> favoritos = new ArrayList<String>();
 
 	public User(String email, String name, String lastName) {
 		super();
@@ -158,6 +161,37 @@ public class User {
 		return true;
 	}
 	
+	public boolean canFavorito(String userEmail) {
+		System.out.println(favoritos.size());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String authEmail = auth.getName();
+		if (userEmail == authEmail)
+			return false;
+		for (String favorito : favoritos) {
+			if (favorito.equals(userEmail))
+				return false;
+		}
+		return true;
+	}
+	
+	public boolean cantFavorito(String userEmail) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String authEmail = auth.getName();
+		
+		if (userEmail == authEmail)
+			return true;
+		for (String favorito : favoritos) {
+			if (favorito.equals(authEmail))
+				return true;
+		}
+		for (String favorito : favoritos) {
+			if (favorito.equals(userEmail))
+				return true;
+		}
+		return false;
+	}
+	
+	
 	public boolean isFriend(User user) {
 		if (this.getFriends().contains(user)) {
 			return true;
@@ -167,5 +201,12 @@ public class User {
 		}
 	
 }
+
+	public void marcarfavorito(String email2) {
+		favoritos.add(email2);
+	}
+	public void borrarfavorito(String email2) {
+		favoritos.remove(email2);
+	}
 
 }
